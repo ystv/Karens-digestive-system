@@ -71,6 +71,7 @@ def popup1():
     popup1.mainloop()
 
 def InfoEntered():
+    ErrorMessage('001')
     #Input1 = r"C:\Users\Jamie\Desktop\"
     #Input2 = r"E:
     #output
