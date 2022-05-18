@@ -13,7 +13,7 @@ debug_output = []
 Output = r'P:/'         # Output drive
 Input = [r'E:/',r'H:/'] # Input drives
 file_types = ['.MTS','.mp4','.WAV','.mp3','.mkv','.mov','.avi'] # Add more video & audio file extensions here
-version = '1.0.3'
+version = '1.0.4'
 
 # Debugging -------
 #def debug(text):
