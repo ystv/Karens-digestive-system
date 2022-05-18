@@ -2,6 +2,7 @@
 
 # Imports ---------
 #from importlib.metadata import files
+#from curses import window
 import tkinter as tk
 import time
 import os
@@ -13,7 +14,9 @@ debug_output = []
 Output = r'P:/'         # Output drive
 Input = [r'E:/',r'H:/'] # Input drives
 file_types = ['.MTS','.mp4','.WAV','.mp3','.mkv','.mov','.avi'] # Add more video & audio file extensions here
-version = '1.0.4'
+version = '1.0.5'
+global window_open
+window_open = False
 
 # Debugging -------
 #def debug(text):
@@ -57,32 +60,47 @@ def main_window():
     try:
         GUI = tk.Tk()
         GUI.geometry("1920x1080")
+        #bg = tk.PhotoImage(file = "Marks.png")
+        #label1 = tk.Label( GUI, image = bg)
+        #label1.place(x = 0, y = 0)
+        GUI['background']='#597685'
         GUI.title("Karen's Digestive System")
         GUI.attributes("-fullscreen",True)
-        Title = tk.Label(GUI,text="\nIngest Options\n",height=3,font=("TkHeadingFont",25)).pack()
-        text = tk.Label(GUI,text="Production Folder Name (case sensitive):",height=2,font=19).pack()
+        Title = tk.Label(GUI,text="\nKaren the Ingest Machine\n",height=3,font=("TkHeadingFont",80),bg='#597685').pack()
+        text = tk.Label(GUI,text="Production Folder Name (case sensitive):",height=2,font=("TkSubHeadingFont",25),bg='#597685').pack()
         global TextEntry
-        TextEntry = tk.Entry(GUI,width=50)
+        TextEntry = tk.Entry(GUI,width=50,font=50)
         TextEntry.pack()
-        text = tk.Label(GUI,text=" ",height=2,font=19).pack()
-        Button=tk.Button(GUI,text="Ingest" , command=confirmation_window).pack()
-        text = tk.Label(GUI,text="This is a Beta test, please report any bugs in #computing on Slack\nPlease confirm your footage is on pending edits before putting the SD card away!\n\nKaren's Digestive System (v "+version+") by Jamie",height=5,font=19)
+        text = tk.Label(GUI,text=" ",height=2,font=25,bg='#597685').pack()
+        Button=tk.Button(GUI,text="Ingest" ,font=25 ,command=show_confirmation_window).pack()
+        text = tk.Label(GUI,text="Karen's Digestive System (v "+version+") by Jamie",height=5,font=50,bg='#597685',fg='white')
         text.pack(side="bottom")
+        text = tk.Label(GUI,text="This is a Beta test, please report any bugs in #computing on Slack\nPlease confirm your footage is on pending edits before putting the SD card away!",height=5,font=("TkSubHeadingFont",20),bg='#597685',fg='white')
+        text.pack(side="bottom")
+        GUI.bind('<Return>',enter_pressed)
         GUI.mainloop()
     except:
         error_window("Error with the Main Menu")
 
-def confirmation_window():
-    global confirmation_window
-    confirmation_window = tk.Tk()
-    confirmation_window.geometry("470x200")
-    confirmation_window.title("Passive Agressive Pop Up")
+def reset_window_open():
+    global window_open
+    window_open = False
 
-    text = tk.Label(confirmation_window,text="            Have you checked that the Production Folder name you entered is correct?            \n\n ",
-                        height=8).grid(row=0,columnspan=3)
-    Button=tk.Button(confirmation_window,text="   Yes, Continue   " , command=lambda:[confirmation_window.destroy(),show_ingest_status_window("Ingesting..."),get_project_name()]).grid(row=1,column=0,sticky='e')
-    Button=tk.Button(confirmation_window,text="    No, Cancel    " , command=confirmation_window.destroy).grid(row=1,column=2,sticky='w')
-    confirmation_window.mainloop()
+def enter_pressed(e):
+    show_confirmation_window()
+def show_confirmation_window():
+    global window_open
+    if window_open == False:
+        window_open = True
+        global confirmation_window
+        confirmation_window = tk.Tk()
+        confirmation_window.geometry("470x200")
+        confirmation_window.title("Passive Agressive Pop Up")
+        text = tk.Label(confirmation_window,text="            Have you checked that the Production Folder name you entered is correct?            \n\n ",
+                            height=8).grid(row=0,columnspan=3)
+        Button=tk.Button(confirmation_window,text="   Yes, Continue   " , command=lambda:[confirmation_window.destroy(),show_ingest_status_window("Ingesting..."),get_project_name(),reset_window_open()]).grid(row=1,column=0,sticky='e')
+        Button=tk.Button(confirmation_window,text="    No, Cancel    " , command=lambda:[confirmation_window.destroy(),reset_window_open()]).grid(row=1,column=2,sticky='w')
+        confirmation_window.mainloop()
     
 def get_project_name():
     ingest_status_window.update()
