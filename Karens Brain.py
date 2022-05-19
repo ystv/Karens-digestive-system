@@ -14,9 +14,10 @@ debug_output = []
 Output = r'P:/'         # Output drive
 Input = [r'E:/',r'H:/'] # Input drives
 file_types = ['.MTS','.mp4','.WAV','.mp3','.mkv','.mov','.avi'] # Add more video & audio file extensions here
-version = '1.0.5'
+version = '1.0.7'
 global window_open
 window_open = False
+progress = ''
 
 # Debugging -------
 #def debug(text):
@@ -41,18 +42,35 @@ def error_window(ErrorText):
 def copy_files(source,destination):
     for file_type in file_types:
         files = glob.glob(source + "/**/*"+file_type, recursive = True)
+        file_count = 0
+        file_count_max = len(files)
         for file in files:
+            file_count = file_count +1
+            global progress
+            global progress_text
+            progress = 'Copying '+os.path.basename(file)+' from \"'+file+'\" to \"'+destination+'/'+os.path.basename(file)+'\"\n\n(File: '+str(file_count)+' of '+str(file_count_max)+')'
+            progress_text['text']="            "+ingest_status+"            \n\n"+progress
+            print(6*len(progress))
+            if 6*len(progress) > 500:
+                geometry = str(6*len(str(progress)))+'x200'
+            else:
+                geometry = '500x200'
+            ingest_status_window.geometry(geometry)
+            ingest_status_window.update()
             shutil.copyfile(file,destination+'/'+os.path.basename(file))
 
 def show_ingest_status_window(status):
+    global ingest_status
+    ingest_status = status
     global ingest_status_window
     ingest_status_window = tk.Tk()
-    ingest_status_window.geometry("300x200")
     ingest_status_window.title("Ingest Status")
-    text = tk.Label(ingest_status_window,text="            "+status+"            \n\n ",
-                        height=8).pack()
+    global progress_text
+    progress_text = tk.Label(ingest_status_window,text="            "+status+"            \n\n\n"+progress,height=8)
+    progress_text.pack()
     if status == "Ingest Complete!":
         Button=tk.Button(ingest_status_window,text="    Ok, close    " , command=ingest_status_window.destroy).pack()
+    ingest_status_window.geometry('300x200')
     
 
 # GUI ----------
@@ -68,12 +86,15 @@ def main_window():
         GUI.attributes("-fullscreen",True)
         Title = tk.Label(GUI,text="\nKaren the Ingest Machine\n",height=3,font=("TkHeadingFont",80),bg='#597685').pack()
         text = tk.Label(GUI,text="Production Folder Name (case sensitive):",height=2,font=("TkSubHeadingFont",25),bg='#597685').pack()
+        #GUI.wm_attributes("-transparentcolor",'#597685')
         global TextEntry
         TextEntry = tk.Entry(GUI,width=50,font=50)
         TextEntry.pack()
         text = tk.Label(GUI,text=" ",height=2,font=25,bg='#597685').pack()
         Button=tk.Button(GUI,text="Ingest" ,font=25 ,command=show_confirmation_window).pack()
-        text = tk.Label(GUI,text="Karen's Digestive System (v "+version+") by Jamie",height=5,font=50,bg='#597685',fg='white')
+        #text_bottom = "Supported File Extensions: "+file_types+"\nIf you think another file type should be supported, contact #computing\n\n"
+        files_supported = str(file_types).replace('[','').replace(']','').replace('\'','')
+        text = tk.Label(GUI,text="Supported File Extensions: "+files_supported+"\nIf you think another file type should be supported, contact #computing\n\n\n\n\n\nKaren's Digestive System (v "+version+") by Jamie",height=10,font=50,bg='#597685',fg='white')
         text.pack(side="bottom")
         text = tk.Label(GUI,text="This is a Beta test, please report any bugs in #computing on Slack\nPlease confirm your footage is on pending edits before putting the SD card away!",height=5,font=("TkSubHeadingFont",20),bg='#597685',fg='white')
         text.pack(side="bottom")
@@ -126,17 +147,17 @@ def make_import_folder():
 
 def copy_from_drives():
     make_import_folder()
-    try:
+    if os.path.isdir(Input[0]) == True:
         copy_files(Input[0],output_path)
-    except:
-        pass
+        if os.path.isdir(Input[1]) == True:
+            make_import_folder()
+            copy_files(Input[1],output_path)
     else:
-        make_import_folder()
-    try:
         copy_files(Input[1],output_path)
-    except:
-        pass
+
     ingest_status_window.destroy()
+    global progress
+    progress = ''
     show_ingest_status_window("Ingest Complete!")
         
 main_window()
