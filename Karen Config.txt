@@ -1,0 +1,20 @@
+## Config File for "Karen's Digestive System.py"
+Version = 1.0.10
+
+Print debug infomation in shell = False
+# True / False
+Maximum project name length = 50
+# Warning: changing this to be larger limit may cause the file copying to fail 
+
+
+#Settings for laptop testing:
+
+Output location for production folder = C:/Users/Jamie/OneDrive/Python/Karen's Digestive System/Test InputOutput/Test Output/
+#Output location for production folder = P:/
+# Must have '/' at end
+Input locations to search for footage = C:/Users/Jamie/OneDrive/Python/Karen's Digestive System/Test InputOutput/Test Inputs/1/, C:/Users/Jamie/OneDrive/Python/Karen's Digestive System/Test InputOutput/Test Inputs/2/
+#Input locations to search for footage = P:/, H:/
+# Seperate with a comma and a single space and must have '/' at end - MUST BE 2 INPUT LOCATIONS
+
+Supported file types = .MTS, .mp4, .WAV, .mp3, .mkv, .mov, .avi
+# Seperate with a comma and a single space - Add more video & audio file extensions here (must start with '.')

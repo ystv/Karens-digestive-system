@@ -1,0 +1,25 @@
+Version 1.0.10:
+
+- Optimisation and bugfixing
+
+Version 1.0.9:
+
+- On startup, the input and output directories are checked.
+	> Error windows will now popup if the directories don't exist.
+- If no supported files are found in the input directories, an error window shows
+- Revamped the patch notes window with a new appearance.
+
+
+Version 1.0.9:
+
+- A config file has been added to easily change settings.
+	> Lays the groundwork for a future settings menu.
+- Projects are now added to a list in a text document for easy tracking.
+- Patch notes are now read from a text file.
+
+
+Version 1.0.8:
+
+- Added data validation to project name entry to make sure it is a valid windows folder name.
+	> Max project name character lengh set to 50
+- File Explorer now opens up to the project folder when the ingest is complete.
