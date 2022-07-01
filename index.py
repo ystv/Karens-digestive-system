@@ -1,5 +1,7 @@
 import os
 import tkinter as tk
+statusWindow = __import__("status-windows")
+karensBrain = __import__("karens-brain")
 
 # Checking for required files
 
@@ -14,6 +16,6 @@ if (
     find("Karen Config.txt",os.getcwd()) == True,
     find("Karens Brain.py",os.getcwd()) == True
 ):
-    print("Success")
+    karensBrain.main_window()
 else:
-    print("Error: Required Files Missing")
+    statusWindow.error_window("Required Files Missing")

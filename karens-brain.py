@@ -15,7 +15,7 @@ def main_window():
         GUI['background']='#597685'
         GUI.title("Karen's Digestive System")
         GUI.attributes("-fullscreen",True)
-        Title = tk.Label(GUI,text="\nKaren the Ingest Machine\n",height=3,font=("TkHeadingFont",80),bg='#597685').pack()
+        title = tk.Label(GUI,text="\nKaren the Ingest Machine\n",height=3,font=("TkHeadingFont",80),bg='#597685').pack()
         text = tk.Label(GUI,text=" ",height=2,font=25,bg='#597685').pack()
         text = tk.Label(GUI,text="Insert SD Card or Storage Device",height=2,font=("TkSubHeadingFont",25),bg='#597685').pack()
         text = tk.Label(GUI,text=" ",height=2,font=25,bg='#597685').pack()
@@ -26,6 +26,3 @@ def main_window():
         text.pack(side="bottom")
         GUI.bind('<Return>',enter_pressed)
         GUI.mainloop()
-
-# Main Program
-main_window()
