@@ -1,7 +1,9 @@
 import os
 import tkinter as tk
+import time
 statusWindow = __import__("status-windows")
 karensBrain = __import__("karens-brain")
+loop = True
 
 # Checking for required files
 
@@ -19,3 +21,14 @@ if (
     karensBrain.main_window()
 else:
     statusWindow.error_window("Required Files Missing")
+
+# Detect Removeable Media
+
+def detect_media():
+    global loop
+    while loop == True:
+        time.sleep(1)
+        if os.system("ls /media | grep sd >/dev/null 2>&1") == 0:
+            # add next window here
+            karensBrain.instruction.set("SD Found")
+detect_media()
