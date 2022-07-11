@@ -11,16 +11,17 @@ def enter_pressed(e):
 
 # Detect Removeable Media ------
 def detect_media():
-    global loop
-    while loop == True:
-        time.sleep(1)
-        if os.system("ls /media | grep sd >/dev/null 2>&1") != "":
-            # add next window here
-            instruction.set("SD Found")
+    try:
+        os.listdir("/media")[0]
+    except:
+        GUI.after(2000, detect_media)
+    else:
+        instruction.set("SD Found")
 
 # GUI ----------
 def main_window():
         global instruction
+        global GUI
         GUI = tk.Tk()
         instruction = tk.StringVar()
         instruction.set("Insert SD Card or Storage Device")
@@ -39,5 +40,5 @@ def main_window():
         text = tk.Label(GUI,text="This is a Beta test, please report any bugs in #computing on Slack\nPlease confirm your footage is on pending edits before putting the SD card away!",height=5,font=("TkSubHeadingFont",20),bg='#597685',fg='white')
         text.pack(side="bottom")#
         GUI.bind('<Return>',enter_pressed)
-        GUI.after(0, detect_media)
+        GUI.after(2000, detect_media)
         GUI.mainloop()
