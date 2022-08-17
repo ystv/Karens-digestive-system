@@ -133,11 +133,13 @@ def get_project_name():
 def make_import_folder():
     try:
         os.mkdir(Output+project_name)
+        os.chmod(Output + project_name, 0o666)
     except:
         pass
     for i in range (1,100000):
         try:
             os.mkdir(Output+project_name+'/Import '+str(i))
+            os.chmod(Output + project_name + '/Import ' + str(i), 0o666)
         except:
             pass
         else:
