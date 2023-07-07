@@ -14,9 +14,9 @@ $ git clone https://github.com/ystv/Karens-digestive-system.git
 
 ## Running
 
-To start the program, execute the file `index.py`:
+To start the program, execute the file `main.py`:
 
 ```shell
-$ python3 index.py
+$ python3 main.py
 ```
 *Run this inside the directory containing the file*
