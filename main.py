@@ -9,14 +9,17 @@ output = '/media/testingest'
 # Variable Defaults
 category = None
 
+# Temp Hard-coded variables
+user = "testingest"
+
 def enter_pressed(e):
         print("Function incomplete")
 
-# Detect Removeable Media ------
+# Detect Removable Media ------
 def detect_media():
     GUI.after(500, detect_media)
     try:
-        os.listdir("/media/testingest")[0]
+        os.listdir("/media/"+user)[0]
     except:
         instruction.set("Insert SD Card or Storage Device")
     else:
