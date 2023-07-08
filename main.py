@@ -4,13 +4,11 @@ import os
 from subprocess import run
 
 # Temp Variables
-output = '/media/testingest'
+input = '/mnt/usb'
+
 
 # Variable Defaults
 category = None
-
-# Temp Hard-coded variables
-user = "testingest"
 
 def enter_pressed(e):
         print("Function incomplete")
@@ -19,7 +17,7 @@ def enter_pressed(e):
 def detect_media():
     GUI.after(500, detect_media)
     try:
-        os.listdir("/media/"+user)[0]
+        os.listdir(input)[0]
     except:
         instruction.set("Insert SD Card or Storage Device")
     else:
@@ -99,7 +97,7 @@ def folder_selection(category):
     folder_GUI['background']='#597685'
     folder_GUI.title("Ingest Wizard")
     tk.Label(folder_GUI,text="\nSelect a Production:\n",height=2,font=("TkHeadingFont",30),bg='#597685').grid(column=1,row=0,columnspan=3)
-    text2 = run("ls -a "+output+" | grep -i boot", shell=True, capture_output=True).stdout
+    text2 = run("ls -a "+input+" | grep -i boot", shell=True, capture_output=True).stdout
     tk.Label(folder_GUI,text=text2).grid(row=2)
     tk.Label(folder_GUI,text=category).grid(row=3)
     tk.Button(folder_GUI,text=" < Back ",command=lambda:[category_selection()],highlightbackground='#597685').grid(column=1,row=7,sticky='S',pady=20) #,padx=120 ,ipadx=5
