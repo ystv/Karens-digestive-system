@@ -2,6 +2,7 @@
 import os
 import threading
 import time
+from removeable_media import directory
 
 def grab_dev_dir():
     global dev_files; global dev_len
@@ -17,6 +18,6 @@ def wait_for_media():
         pass
     for device in [file for file in os.listdir("/dev")]:
         if device not in dev_files:
-            lol = "/dev/"+device
+            lol = directory+"/"+device
             #print(test)
             return lol
